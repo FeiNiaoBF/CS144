@@ -10,7 +10,7 @@ using namespace std;
 
 void get_URL( const string& host, const string& path )
 {
-  // Establish TCP sokcet
+  // Establish TCP socket
   TCPSocket clientTCP;
   // Confirm address
   // connect to server
