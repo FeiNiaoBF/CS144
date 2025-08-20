@@ -36,6 +36,7 @@ add_test_exec(byte_stream_one_write)
 add_test_exec(byte_stream_two_writes)
 add_test_exec(byte_stream_many_writes)
 add_test_exec(byte_stream_stress_test)
+add_test_exec(byte_stream_closed_stream)
 
 add_test_exec(no_skip)
 
