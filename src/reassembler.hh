@@ -1,12 +1,19 @@
 #pragma once
 
 #include "byte_stream.hh"
+#include <map>
 
 class Reassembler
 {
 public:
   // Construct Reassembler to write into given ByteStream.
-  explicit Reassembler( ByteStream&& output ) : output_( std::move( output ) ) {}
+  explicit Reassembler( ByteStream&& output ) :
+    output_( std::move( output ) ),
+    segments_(),
+    next_index_( 0 ),
+    unassembled_bytes_( 0 ),
+    eof_received_( false ),
+    eof_index_( 0 ){}
 
   /*
    * Insert a new substring to be reassembled into a ByteStream.
@@ -43,4 +50,17 @@ public:
 
 private:
   ByteStream output_;
+  // segments_ the map that stores the segments that have been received but not yet assembled
+  // key: the starting index of the segment
+  // value: the data of the segment
+  std::map<uint64_t, std::string> segments_;
+  // next_index_ is the next index that we expect to write to the output
+  // 缓冲区的first index 就是 next_index_
+  uint64_t next_index_ = 0;
+  // unassembled_bytes_ is the total number of bytes that have been received but not yet assembled
+  size_t unassembled_bytes_ = 0;
+  // eof_received_ indicates whether we have received the end of file marker
+  bool eof_received_ = false;
+  // eof_index_ is the index of the end of file marker
+  uint64_t eof_index_ = 0;
 };
